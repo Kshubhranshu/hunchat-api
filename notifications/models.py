@@ -11,31 +11,32 @@ Video = get_video_model()
 
 
 class Notification(models.Model):
-    owner = models.ForeignKey(User, related_name='notifications', on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        User, related_name="notifications", on_delete=models.CASCADE
+    )
     created_at = models.DateTimeField(editable=False)
     unread = models.BooleanField(default=True)
 
-    VIDEO_COMMENT = 'VC'
+    VIDEO_COMMENT = "VC"
 
-    NOTIFICATION_TYPES = (
-        (VIDEO_COMMENT, 'Video Comment'),
-    )
+    NOTIFICATION_TYPES = ((VIDEO_COMMENT, "Video Comment"),)
 
     notification_type = models.CharField(max_length=3, choices=NOTIFICATION_TYPES)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey("content_type", "object_id")
 
 
 class VideoCommentNotificationManager(models.Manager):
     def create(self, *args, **kwargs):
-        video_comment_notification = super(VideoCommentNotificationManager, self)
-            .create(*args, **kwargs)
+        video_comment_notification = super(
+            VideoCommentNotificationManager, self
+        ).create(*args, **kwargs)
         Notification.objects.create(
-            owner_id=kwargs['owner_id'],
+            owner_id=kwargs["owner_id"],
             notification_type=Notification.VIDEO_COMMENT,
-            content_object=video_comment_notification
+            content_object=video_comment_notification,
         )
         return video_comment_notification
 
