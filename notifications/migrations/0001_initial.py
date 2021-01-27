@@ -11,28 +11,65 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('contenttypes', '0002_remove_content_type_name'),
-        ('videos', '0001_initial'),
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("videos", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='VideoCommentNotification',
+            name="VideoCommentNotification",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('video_comment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='videos.Video')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "video_comment",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="videos.Video"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Notification',
+            name="Notification",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(editable=False)),
-                ('unread', models.BooleanField(default=True)),
-                ('notification_type', models.CharField(choices=[('VC', 'Video Comment')], max_length=3)),
-                ('object_id', models.PositiveIntegerField()),
-                ('content_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='notifications', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(editable=False)),
+                ("unread", models.BooleanField(default=True)),
+                (
+                    "notification_type",
+                    models.CharField(choices=[("VC", "Video Comment")], max_length=3),
+                ),
+                ("object_id", models.PositiveIntegerField()),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="contenttypes.ContentType",
+                    ),
+                ),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="notifications",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

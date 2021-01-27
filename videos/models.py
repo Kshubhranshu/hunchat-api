@@ -30,7 +30,9 @@ class Video(models.Model):
         null=True,
     )
     resources_link = models.URLField()
-    author = models.ForeignKey("authentication.User", related_name="videos", on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        "authentication.User", related_name="videos", on_delete=models.CASCADE
+    )
 
     # If video is a comment, this field represents the video it is commenting on.
     answer_to = models.ForeignKey(

@@ -15,14 +15,36 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Video',
+            name="Video",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.CharField(blank=True, max_length=200)),
-                ('file', models.FileField(null=True, upload_to='videos')),
-                ('resources_link', models.URLField()),
-                ('answer_to', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='videos.Video')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='videos', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("description", models.CharField(blank=True, max_length=200)),
+                ("file", models.FileField(null=True, upload_to="videos")),
+                ("resources_link", models.URLField()),
+                (
+                    "answer_to",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="comments",
+                        to="videos.Video",
+                    ),
+                ),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="videos",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]
