@@ -1,18 +1,11 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth import get_user_model
-
-from hunchat.model_loaders import get_video_model
-
-
-User = get_user_model()
-Video = get_video_model()
 
 
 class Notification(models.Model):
     owner = models.ForeignKey(
-        User, related_name="notifications", on_delete=models.CASCADE
+        "authentication.User", related_name="notifications", on_delete=models.CASCADE
     )
     created_at = models.DateTimeField(editable=False)
     unread = models.BooleanField(default=True)
@@ -42,7 +35,7 @@ class VideoCommentNotificationManager(models.Manager):
 
 
 class VideoCommentNotification(models.Model):
-    notification = GenericRelation(Notification)
-    video_comment = models.ForeignKey(Video, on_delete=models.CASCADE)
+    notification = GenericRelation("notifications.Notification")
+    video_comment = models.ForeignKey("videos.Video", on_delete=models.CASCADE)
 
     objects = VideoCommentNotificationManager()
