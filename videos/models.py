@@ -1,10 +1,5 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.conf import settings
-
-
-User = get_user_model()
-VideoCommentNotification = get_video_comment_notification_model()
 
 
 class VideoManager(models.Manager):
@@ -13,6 +8,7 @@ class VideoManager(models.Manager):
 
         if kwargs["answer_to"]:
             # create VideoCommentNotification if video is a comment
+            VideoCommentNotification = get_video_comment_notification_model()
             VideoCommentNotification.objects.create(
                 owner_id=answer_to.id, video_comment=video
             )
@@ -34,11 +30,11 @@ class Video(models.Model):
         null=True,
     )
     resources_link = models.URLField()
-    author = models.ForeignKey(User, related_name="videos", on_delete=models.CASCADE)
+    author = models.ForeignKey("authentication.User", related_name="videos", on_delete=models.CASCADE)
 
     # If video is a comment, this field represents the video it is commenting on.
     answer_to = models.ForeignKey(
-        Video, related_name="comments", on_delete=models.CASCADE
+        "videos.Video", related_name="comments", on_delete=models.CASCADE
     )
 
     objects = VideoManager()
