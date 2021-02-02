@@ -5,6 +5,10 @@ djangorestframework-simplejwt==4.6.0
 
 # Storage
 django-storages==1.10.1
+boto3==1.16.63
 
 # Environment variables
 python-dotenv==0.15.0
+
+# Images
+Pillow==8.1.0
