@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "invitations",
     "lists",
     "notifications",
+    "posts",
     "videos",
 ]
 
@@ -122,11 +123,7 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
-}
+DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
 
 AUTH_USER_MODEL = "authentication.User"
 
@@ -213,6 +210,4 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
 # Hunchat config
 
-VIDEO_DESCRIPTION_MAX_LENGTH = int(
-    os.environ.get("VIDEO_DESCRIPTION_MAX_LENGTH", "200")
-)
+POST_DESCRIPTION_MAX_LENGTH = int(os.environ.get("POST_DESCRIPTION_MAX_LENGTH", "200"))
