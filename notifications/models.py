@@ -10,9 +10,9 @@ class Notification(models.Model):
     created_at = models.DateTimeField(editable=False)
     unread = models.BooleanField(default=True)
 
-    VIDEO_COMMENT = "VC"
+    POST_COMMENT = "PC"
 
-    NOTIFICATION_TYPES = ((VIDEO_COMMENT, "Video Comment"),)
+    NOTIFICATION_TYPES = ((POST_COMMENT, "Post Comment"),)
 
     notification_type = models.CharField(max_length=3, choices=NOTIFICATION_TYPES)
 
@@ -21,21 +21,21 @@ class Notification(models.Model):
     content_object = GenericForeignKey("content_type", "object_id")
 
 
-class VideoCommentNotificationManager(models.Manager):
+class PostCommentNotificationManager(models.Manager):
     def create(self, *args, **kwargs):
-        video_comment_notification = super(
-            VideoCommentNotificationManager, self
-        ).create(*args, **kwargs)
+        post_comment_notification = super(PostCommentNotificationManager, self).create(
+            *args, **kwargs
+        )
         Notification.objects.create(
             owner_id=kwargs["owner_id"],
-            notification_type=Notification.VIDEO_COMMENT,
-            content_object=video_comment_notification,
+            notification_type=Notification.POST_COMMENT,
+            content_object=post_comment_notification,
         )
-        return video_comment_notification
+        return post_comment_notification
 
 
-class VideoCommentNotification(models.Model):
+class PostCommentNotification(models.Model):
     notification = GenericRelation("notifications.Notification")
-    video_comment = models.ForeignKey("videos.Video", on_delete=models.CASCADE)
+    post_comment = models.ForeignKey("posts.Post", on_delete=models.CASCADE)
 
-    objects = VideoCommentNotificationManager()
+    objects = PostCommentNotificationManager()
