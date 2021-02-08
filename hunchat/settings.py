@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import json
 from dotenv import load_dotenv
 import dj_database_url
 import django_heroku
@@ -31,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG")
+DEBUG = bool(os.environ.get("DEBUG"))
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_SSL_REDIRECT = False
@@ -39,9 +40,7 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 X_FRAME_OPTIONS = "DENY"
 
-ALLOWED_HOSTS = [
-    "hunchat-api.herokuapp.com",
-]
+ALLOWED_HOSTS = json.loads(os.environ.get("ALLOWED_HOSTS"))
 
 
 # Application definition
@@ -96,14 +95,8 @@ TEMPLATES = [
 WSGI_APPLICATION = "hunchat.wsgi.application"
 
 
-CORS_ORIGIN_ALLOW_ALL = False
-
-CORS_ORIGIN_WHITELIST = [
-    "https://www.hunchat.com",
-    "http://www.hunchat.com",
-    "https://hunchat.com",
-    "http://hunchat.com",
-]
+CORS_ORIGIN_ALLOW_ALL = bool(os.environ.get("CORS_ORIGIN_ALLOW_ALL", False))
+CORS_ORIGIN_WHITELIST = json.loads(os.environ.get("CORS_ORIGIN_WHITELIST"))
 
 
 # Django Rest Framework
@@ -199,10 +192,12 @@ MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_MEDIA_LOCATION)
 # Email configurations
 # https://docs.djangoproject.com/en/3.1/topics/email/
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "email-smtp.eu-west-2.amazonaws.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = os.environ.get(
+    "EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
+)
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+EMAIL_USE_TLS = bool(os.environ.get("EMAIL_USE_TLS", True))
 EMAIL_HOST_USER = os.environ.get("AWS_SES_SMTP_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("AWS_SES_SMTP_PASSWORD")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
