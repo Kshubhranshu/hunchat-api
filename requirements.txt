@@ -2,6 +2,7 @@
 django==3.1.3
 djangorestframework==3.12.2
 djangorestframework-simplejwt>=4.4.0
+djangorestframework-serializer-extensions>=2.0.0
 django-cors-headers==3.7.0
 
 # Heroku
@@ -13,6 +14,9 @@ boto3==1.16.63
 
 # Environment variables
 python-dotenv==0.15.0
+
+# Videos
+moviepy==1.0.3
 
 # Images
 Pillow==8.1.0
