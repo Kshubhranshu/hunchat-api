@@ -33,7 +33,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", False)
+DEBUG = False
+if os.environ.get("DEBUG", "False") == "True":
+    DEBUG = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_SSL_REDIRECT = False
@@ -99,7 +101,9 @@ TEMPLATES = [
 WSGI_APPLICATION = "hunchat.wsgi.application"
 
 
-CORS_ORIGIN_ALLOW_ALL = bool(os.environ.get("CORS_ORIGIN_ALLOW_ALL", False))
+CORS_ORIGIN_ALLOW_ALL = False
+if os.environ.get("CORS_ORIGIN_ALLOW_ALL", "False") == "True":
+    CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = json.loads(os.environ.get("CORS_ORIGIN_WHITELIST"))
 
 
@@ -223,7 +227,9 @@ EMAIL_BACKEND = os.environ.get(
 )
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
-EMAIL_USE_TLS = bool(os.environ.get("EMAIL_USE_TLS", True))
+EMAIL_USE_TLS = True
+if os.environ.get("EMAIL_USE_TLS", "True") == "False":
+    EMAIL_USE_TLS = False
 EMAIL_HOST_USER = os.environ.get("AWS_SES_SMTP_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("AWS_SES_SMTP_PASSWORD")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
