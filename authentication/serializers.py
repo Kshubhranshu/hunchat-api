@@ -16,12 +16,16 @@ from rest_framework_serializer_extensions.utils import (
     external_id_from_model_and_internal_id,
 )
 
+from hunchat.model_loaders import get_video_model
+
 from authentication.validators import (
     username_characters_validator,
     username_not_taken_validator,
     email_not_taken_validator,
     user_email_exists,
 )
+
+from videos.serializers import VideoSerializer
 
 
 class UserBaseSerializer(
@@ -37,6 +41,8 @@ class UserBaseSerializer(
             "name",
             "email",
             "password",
+            "are_terms_accepted",
+            "is_newsletter_subscribed",
         ]
         read_only_fields = [
             "id",
@@ -63,7 +69,7 @@ class UserSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
 
     id = HashIdField(model=get_user_model(), read_only=True)
     image_url = serializers.SerializerMethodField()
-    bio_video_url = serializers.SerializerMethodField()
+    bio_video = VideoSerializer(required=False)
 
     class Meta:
         model = get_user_model()
@@ -76,22 +82,35 @@ class UserSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
             "image_url",
             "bio",
             "bio_video",
-            "bio_video_url",
             "location",
+            "date_joined",
             "link",
         ]
 
     def get_image_url(self, obj):
         image = obj.image
         if image:
-            return image.build_url()
+            return image.url
         return None
 
-    def get_bio_video_url(self, obj):
-        bio_video = obj.bio_video
-        if bio_video:
-            return bio_video.build_url()
-        return None
+
+class UserBioVideoSerializer(serializers.ModelSerializer):
+    id = HashIdField(model=get_user_model(), read_only=True)
+    bio_video = VideoSerializer()
+
+    class Meta:
+        model = get_user_model()
+        fields = ["id", "bio_video"]
+
+    # def validate(self, data):
+    #     print('DATA', data)
+    #
+    # def update(self, instance, validated_data):
+    #     print('VALIDATED DATA', validated_data)
+    # video = get_video_model().objects.create(**validated_data)
+    # instance.bio_video = video
+    # instance.save()
+    # return instance
 
 
 class UsernameCheckSerializer(serializers.Serializer):
