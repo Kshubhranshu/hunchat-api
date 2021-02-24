@@ -23,3 +23,6 @@ Pillow==8.1.0
 
 # WSGI
 gunicorn==20.0.4
+
+# API docs
+drf-yasg==1.20.0
