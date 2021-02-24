@@ -1,8 +1,17 @@
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
 
-from rest_framework import generics, mixins, permissions, viewsets, status, filters
+from rest_framework import (
+    generics,
+    mixins,
+    permissions,
+    viewsets,
+    status,
+    filters,
+    parsers,
+)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -25,10 +34,12 @@ from rest_framework_simplejwt.serializers import (
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
 
 from hunchat import permissions as hunchat_permissions
+from hunchat.model_loaders import get_video_model
 
 from authentication.serializers import (
     UserBaseSerializer,
     UserSerializer,
+    UserBioVideoSerializer,
     UsernameCheckSerializer,
     EmailCheckSerializer,
     TokenPairSerializer,
@@ -43,7 +54,7 @@ class UserViewSet(
     API endpoint that allows users to be viewed, created, edited or deleted.
     """
 
-    search_fields = ["username", "first_name", "last_name"]
+    search_fields = ["username", "name"]
     filter_backends = [
         filters.SearchFilter,
     ]
@@ -70,6 +81,66 @@ class UserViewSet(
             if user:
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserBioVideoView(
+    ExternalIdViewMixin,
+    SerializerExtensionsAPIViewMixin,
+    generics.UpdateAPIView,
+):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserBioVideoSerializer
+    parser_classes = [
+        parsers.MultiPartParser,
+        parsers.FileUploadParser,
+    ]
+
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        video = get_video_model().objects.create(
+            file=request.data.get("file"),
+            duration=float(request.data.get("duration")),
+            height=int(request.data.get("height")),
+            width=int(request.data.get("width")),
+        )
+
+        instance.bio_video = video
+        instance.save()
+
+        serializer = self.get_serializer(instance)
+
+        return Response(serializer.data)
+
+
+class UserImageView(
+    ExternalIdViewMixin,
+    SerializerExtensionsAPIViewMixin,
+    generics.UpdateAPIView,
+):
+    queryset = get_user_model().objects.all()
+    parser_classes = [
+        parsers.MultiPartParser,
+        parsers.FileUploadParser,
+    ]
+
+    def put(self, request, *args, **kwargs):
+        user_hashid = kwargs["pk"]
+        user_id = internal_id_from_model_and_external_id(get_user_model(), user_hashid)
+        file = request.FILES.get("file")
+        if file:
+            user = get_user_model().objects.get(pk=user_id)
+            user.image = file
+            user.save()
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        else:
+            return Response(
+                {"message": "No image file detected."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class UsernameAvailableView(APIView):
@@ -130,6 +201,10 @@ class CheckRefreshTokenIsBlacklistedView(APIView):
     """
 
     serializer_class = CheckRefreshTokenIsBlacklistedSerializer
+    permission_classes = [
+        permissions.AllowAny,
+    ]
+    authentication_classes = []
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
