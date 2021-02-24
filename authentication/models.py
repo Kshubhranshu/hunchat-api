@@ -15,7 +15,7 @@ class User(AbstractUser):
     is_email_verified = models.BooleanField(default=False)
 
     # profile image
-    image = models.ImageField(upload_to="images", null=True)
+    image = models.ImageField(upload_to="images", null=True, blank=True)
 
     bio = models.CharField(null=True, blank=True, max_length=200)
     bio_video = models.ForeignKey(
@@ -29,6 +29,10 @@ class User(AbstractUser):
     location = models.CharField(null=True, blank=True, max_length=40)
 
     link = models.URLField(null=True, blank=True)
+
+    are_terms_accepted = models.BooleanField(default=False)
+
+    is_newsletter_subscribed = models.BooleanField(default=False)
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = [
