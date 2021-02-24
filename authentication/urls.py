@@ -5,13 +5,23 @@ from rest_framework import routers
 from authentication import views
 
 
-app_name = "authentication_app"
+app_name = "authentication"
 
 router = routers.DefaultRouter()
 router.register(r"users", views.UserViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path(
+        "users/<str:pk>/bio_video/",
+        views.UserBioVideoView.as_view(),
+        name="users_detail_bio_video",
+    ),
+    path(
+        "users/<str:pk>/image/",
+        views.UserImageView.as_view(),
+        name="users_detail_image",
+    ),
     path(
         "auth/username_available/",
         views.UsernameAvailableView.as_view(),
