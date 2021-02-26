@@ -127,3 +127,32 @@ class PostThreadView(generics.RetrieveAPIView):
         thread = get_post_model().objects.get(pk=pk).get_thread()
         serializer = self.serializer_class(thread, many=True)
         return Response(serializer.data)
+
+
+class UserPostsView(generics.ListAPIView):
+    """
+    API endpoint to get user posts.
+    """
+
+    serializer_class = PostSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        """Get user's posts."""
+        pk = self.kwargs["pk"]
+        pk = internal_id_from_model_and_external_id(get_user_model(), pk)
+        user = get_user_model().objects.get(pk=pk)
+        posts = user.posts
+        return posts
+
+    def get(self, request, *args, **kwargs):
+        """Get user posts by user external id."""
+        try:
+            posts = self.get_queryset()
+            serializer = self.serializer_class(posts, many=True)
+            return Response(serializer.data)
+        except ObjectDoesNotExist:
+            return Response(
+                {"message": "No user exists with that id."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
