@@ -45,6 +45,11 @@ X_FRAME_OPTIONS = "DENY"
 
 ALLOWED_HOSTS = json.loads(os.environ.get("ALLOWED_HOSTS"))
 
+BUGSNAG = {
+    "api_key": os.environ.get("BUGSNAG_API_KEY"),
+    "project_root": BASE_DIR,
+}
+
 
 # Application definition
 
@@ -70,6 +75,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "bugsnag.django.middleware.BugsnagMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
