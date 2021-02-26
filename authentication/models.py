@@ -40,6 +40,9 @@ class User(AbstractUser):
         "email",
     ]
 
+    class Meta:
+        ordering = ["-date_joined"]
+
     @classmethod
     def is_username_taken(cls, username):
         users = cls.objects.filter(username=username)
