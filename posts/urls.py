@@ -15,4 +15,9 @@ urlpatterns = [
     path("posts_create/", views.PostCreateView.as_view(), name="posts_create"),
     path("posts/<str:pk>/like/", views.LikePostView.as_view(), name="posts_like"),
     path("posts/<str:pk>/thread/", views.PostThreadView.as_view(), name="posts_thread"),
+    path(
+        "users/<str:pk>/posts/",
+        views.UserPostsView.as_view(),
+        name="users_detail_posts",
+    ),
 ]
