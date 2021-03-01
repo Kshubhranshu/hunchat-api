@@ -28,4 +28,10 @@ class IsAdminOrIsOwner(permissions.IsAuthenticated):
             and obj.user == request.user
         ):
             return True
+        elif (
+            request.user
+            and type(obj.owner) == type(request.user)
+            and obj.owner == request.user
+        ):
+            return True
         return False
