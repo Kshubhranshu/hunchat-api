@@ -19,7 +19,6 @@ celery==5.0.5
 python-dotenv==0.15.0
 
 # Videos
-moviepy==1.0.3
 opencv-python==4.5.1.48
 
 # Images
