@@ -16,6 +16,11 @@ urlpatterns = [
     path("posts/<str:pk>/like/", views.LikePostView.as_view(), name="posts_like"),
     path("posts/<str:pk>/thread/", views.PostThreadView.as_view(), name="posts_thread"),
     path(
+        "posts/<str:pk>/comments/",
+        views.PostCommentsView.as_view(),
+        name="posts_comments",
+    ),
+    path(
         "users/<str:pk>/posts/",
         views.UserPostsView.as_view(),
         name="users_detail_posts",
