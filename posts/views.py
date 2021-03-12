@@ -129,6 +129,18 @@ class PostThreadView(generics.RetrieveAPIView):
         return Response(serializer.data)
 
 
+class PostCommentsView(generics.RetrieveAPIView):
+    queryset = get_post_model().objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, pk):
+        pk = internal_id_from_model_and_external_id(get_post_model(), pk)
+        comments = get_post_model().objects.get(pk=pk).get_comments()
+        serializer = self.serializer_class(comments, many=True)
+        return Response({"results": serializer.data})
+
+
 class UserPostsView(generics.ListAPIView):
     """
     API endpoint to get user posts.
