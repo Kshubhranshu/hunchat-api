@@ -17,7 +17,7 @@ class User(AbstractUser):
     # profile image
     image = models.ImageField(upload_to="images", null=True, blank=True)
 
-    bio = models.CharField(null=True, blank=True, max_length=200)
+    bio = models.CharField(null=True, blank=True, max_length=160)
     bio_video = models.ForeignKey(
         "videos.Video",
         related_name="user",
