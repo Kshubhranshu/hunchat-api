@@ -1,5 +1,7 @@
 from django.db import models
 
+from videos.managers import VideoManager
+
 
 class Video(models.Model):
     """
@@ -16,3 +18,15 @@ class Video(models.Model):
     )  # duration in seconds
     height = models.PositiveIntegerField()  # height in pixels
     width = models.PositiveIntegerField()  # width in pixels
+
+    poster = models.ImageField(
+        upload_to="images",
+        height_field="poster_height",
+        width_field="poster_width",
+        blank=True,
+        null=True,
+    )
+    poster_height = models.PositiveIntegerField(blank=True, null=True)  # height in pixels
+    poster_width = models.PositiveIntegerField(blank=True, null=True)  # width in pixels
+
+    objects = VideoManager()
