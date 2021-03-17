@@ -1,50 +1,44 @@
 from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
-from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 from rest_framework import (
+    filters,
     generics,
     mixins,
-    permissions,
-    viewsets,
-    status,
-    filters,
     parsers,
+    permissions,
+    status,
+    viewsets,
 )
-from rest_framework.views import APIView
 from rest_framework.response import Response
-
-from rest_framework_serializer_extensions.views import (
-    ExternalIdViewMixin,
-    SerializerExtensionsAPIViewMixin,
-)
+from rest_framework.views import APIView
 from rest_framework_serializer_extensions.utils import (
     internal_id_from_model_and_external_id,
 )
-
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView as JWTTokenObtainPairView,
-    TokenRefreshView as JWTTokenRefreshView,
+from rest_framework_serializer_extensions.views import (
+    ExternalIdViewMixin,
+    SerializerExtensionsAPIViewMixin,
 )
 from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer as JWTTokenRefreshSerializer,
 )
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
-
-from hunchat import permissions as hunchat_permissions
-from hunchat.model_loaders import get_video_model
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView as JWTTokenObtainPairView
+from rest_framework_simplejwt.views import TokenRefreshView as JWTTokenRefreshView
 
 from authentication.serializers import (
-    UserBaseSerializer,
-    UserSerializer,
-    UserBioVideoSerializer,
-    UsernameCheckSerializer,
+    CheckRefreshTokenIsBlacklistedSerializer,
     EmailCheckSerializer,
     TokenPairSerializer,
-    CheckRefreshTokenIsBlacklistedSerializer,
+    UserBaseSerializer,
+    UserBioVideoSerializer,
+    UsernameCheckSerializer,
+    UserSerializer,
 )
+from hunchat import permissions as hunchat_permissions
+from hunchat.model_loaders import get_video_model
 
 
 class UserViewSet(
@@ -210,9 +204,7 @@ class CheckRefreshTokenIsBlacklistedView(APIView):
         serializer = self.serializer_class(data=request.data)
         try:
             if serializer.is_valid():
-                blacklisted_token = BlacklistedToken.objects.get(
-                    token__jti=serializer.data["jti"]
-                )
+                BlacklistedToken.objects.get(token__jti=serializer.data["jti"])
                 return Response(data={"message": _("Refresh token is blacklisted")})
         except ObjectDoesNotExist:
             return Response(data={"message": _("Refresh token is not blacklisted")})
@@ -229,5 +221,5 @@ class BlacklistRefreshTokenView(APIView):
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response(status=status.HTTP_205_RESET_CONTENT)
-        except Exception as e:
+        except:
             return Response(status=status.HTTP_400_BAD_REQUEST)

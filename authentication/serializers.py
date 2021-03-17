@@ -2,29 +2,24 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.core.validators import EmailValidator
-
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-
+from rest_framework_serializer_extensions.fields import HashIdField
+from rest_framework_serializer_extensions.serializers import SerializerExtensionsMixin
+from rest_framework_serializer_extensions.utils import (
+    external_id_from_model_and_internal_id,
+)
 from rest_framework_simplejwt.serializers import (
     TokenObtainPairSerializer as JWTTokenObtainPairSerializer,
 )
 
-from rest_framework_serializer_extensions.serializers import SerializerExtensionsMixin
-from rest_framework_serializer_extensions.fields import HashIdField
-from rest_framework_serializer_extensions.utils import (
-    external_id_from_model_and_internal_id,
-)
-
-from hunchat.model_loaders import get_video_model
-
 from authentication.validators import (
-    username_characters_validator,
-    username_not_taken_validator,
     email_not_taken_validator,
     user_email_exists,
+    username_characters_validator,
+    username_not_taken_validator,
 )
-
+from hunchat.model_loaders import get_video_model
 from videos.serializers import VideoSerializer
 
 

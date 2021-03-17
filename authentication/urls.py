@@ -1,9 +1,7 @@
 from django.urls import include, path
-
 from rest_framework import routers
 
 from authentication import views
-
 
 app_name = "authentication"
 

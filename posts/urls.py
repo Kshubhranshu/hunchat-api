@@ -1,9 +1,7 @@
 from django.urls import include, path
-
 from rest_framework import routers
 
 from posts import views
-
 
 app_name = "posts"
 

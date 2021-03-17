@@ -10,14 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
-import os
 import json
+import os
 from datetime import timedelta
-from dotenv import load_dotenv
+from pathlib import Path
+
 import dj_database_url
 import django_heroku
-
+from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv(verbose=True)
@@ -152,6 +152,12 @@ SIMPLE_JWT = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": str(BASE_DIR / "db.sqlite3"),
+    }
+}
 
 AUTH_USER_MODEL = "authentication.User"
 

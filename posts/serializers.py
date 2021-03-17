@@ -1,19 +1,15 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
-
 from rest_framework import serializers
-
-from rest_framework_serializer_extensions.serializers import SerializerExtensionsMixin
 from rest_framework_serializer_extensions.fields import HashIdField
+from rest_framework_serializer_extensions.serializers import SerializerExtensionsMixin
 from rest_framework_serializer_extensions.utils import (
     external_id_from_model_and_internal_id,
 )
 
-from hunchat.model_loaders import get_post_model, get_post_like_model
-
-from videos.serializers import VideoSerializer
-
 from authentication.serializers import UserSerializer
+from hunchat.model_loaders import get_post_like_model, get_post_model
+from videos.serializers import VideoSerializer
 
 
 class PostSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):

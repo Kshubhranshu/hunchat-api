@@ -1,7 +1,5 @@
-from django.conf import settings
-
 import hashids
-
+from django.conf import settings
 
 default_app_config = "authentication.apps.AuthenticationConfig"
 

@@ -1,18 +1,14 @@
 from django.utils.translation import gettext_lazy as _
-
-from rest_framework import serializers
-
-from rest_framework_serializer_extensions.serializers import SerializerExtensionsMixin
-from rest_framework_serializer_extensions.fields import HashIdField
-
 from generic_relations.relations import GenericRelatedField
+from rest_framework import serializers
+from rest_framework_serializer_extensions.fields import HashIdField
+from rest_framework_serializer_extensions.serializers import SerializerExtensionsMixin
 
 from hunchat.model_loaders import (
     get_notification_model,
     get_post_comment_notification_model,
     get_post_like_notification_model,
 )
-
 from posts.serializers import PostCommentSerializer, PostLikeSerializer
 
 

@@ -1,38 +1,28 @@
 from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
-from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-
+from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 from rest_framework import (
+    filters,
     generics,
     mixins,
-    permissions,
-    viewsets,
-    status,
-    filters,
     parsers,
+    permissions,
+    status,
+    viewsets,
 )
-from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from rest_framework.views import APIView
+from rest_framework_serializer_extensions.utils import (
+    internal_id_from_model_and_external_id,
+)
 from rest_framework_serializer_extensions.views import (
     ExternalIdViewMixin,
     SerializerExtensionsAPIViewMixin,
 )
-from rest_framework_serializer_extensions.utils import (
-    internal_id_from_model_and_external_id,
-)
 
-from hunchat.model_loaders import (
-    get_post_model,
-    get_video_model,
-    get_post_like_model,
-)
-
-from posts.serializers import (
-    PostSerializer,
-    PostThreadSerializer,
-)
+from hunchat.model_loaders import get_post_like_model, get_post_model, get_video_model
+from posts.serializers import PostSerializer, PostThreadSerializer
 
 
 class PostsViewset(
@@ -103,7 +93,7 @@ class LikePostView(generics.CreateAPIView):
         pk = internal_id_from_model_and_external_id(get_post_model(), pk)
         post = get_post_model().objects.get(pk=pk)
         try:
-            post_like = get_post_like_model().objects.create(
+            get_post_like_model().objects.create(
                 user=request.user,
                 post=post,
             )

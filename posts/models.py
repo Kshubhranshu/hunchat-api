@@ -1,7 +1,7 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
 
-from posts.managers import PostManager, PostLikeManager
+from posts.managers import PostLikeManager, PostManager
 
 
 class Post(models.Model):

@@ -1,6 +1,5 @@
 from django.shortcuts import render
-
-from rest_framework import status, permissions, mixins, generics
+from rest_framework import generics, mixins, permissions, status
 from rest_framework.response import Response
 
 from invitations.serializers import InvitationSerializer

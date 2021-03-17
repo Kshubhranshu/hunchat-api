@@ -2,8 +2,7 @@ import re
 
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
-from rest_framework.exceptions import ValidationError, NotFound
+from rest_framework.exceptions import NotFound, ValidationError
 
 
 def username_characters_validator(username):

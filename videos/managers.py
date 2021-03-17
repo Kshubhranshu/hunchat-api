@@ -1,10 +1,9 @@
 from io import BytesIO
 
-from django.db import models
+import cv2
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
-
-import cv2
+from django.db import models
 
 
 class VideoManager(models.Manager):
