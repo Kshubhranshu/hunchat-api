@@ -26,7 +26,9 @@ class Video(models.Model):
         blank=True,
         null=True,
     )
-    poster_height = models.PositiveIntegerField(blank=True, null=True)  # height in pixels
+    poster_height = models.PositiveIntegerField(
+        blank=True, null=True
+    )  # height in pixels
     poster_width = models.PositiveIntegerField(blank=True, null=True)  # width in pixels
 
     objects = VideoManager()

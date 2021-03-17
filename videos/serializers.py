@@ -13,7 +13,7 @@ class VideoSerializer(serializers.ModelSerializer):
             "id",
             "file",
             "file_url",
-            "duration", 
+            "duration",
             "height",
             "width",
             "poster",
