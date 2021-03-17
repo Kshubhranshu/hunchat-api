@@ -23,7 +23,11 @@ from rest_framework_serializer_extensions.utils import (
     internal_id_from_model_and_external_id,
 )
 
-from hunchat.model_loaders import get_post_model, get_video_model
+from hunchat.model_loaders import (
+    get_post_model,
+    get_video_model,
+    get_post_like_model,
+)
 
 from posts.serializers import (
     PostSerializer,
@@ -95,20 +99,20 @@ class LikePostView(generics.CreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, pk=None):
         pk = internal_id_from_model_and_external_id(get_post_model(), pk)
         post = get_post_model().objects.get(pk=pk)
         try:
-            post_like = PostLike.objects.create(
+            post_like = get_post_like_model().objects.create(
                 user=request.user,
                 post=post,
             )
             post = get_post_model().objects.get(pk=pk)
             serializer = self.serializer_class(post)
-            return Response(data={serializer.data}, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         except ValidationError:
             return Response(
-                data={"message": _("User already liked this post.")},
+                {"message": _("User already liked this post.")},
                 status=status.HTTP_409_CONFLICT,
             )
 
@@ -117,10 +121,6 @@ class PostThreadView(generics.RetrieveAPIView):
     queryset = get_post_model().objects.all()
     serializer_class = PostSerializer
     permission_classes = [permissions.AllowAny]
-
-    # def get_queryset(self, pk):
-    #     post = get_post_model().objects.get(pk=pk)
-    #     return post.get_thread()
 
     def get(self, request, pk):
         pk = internal_id_from_model_and_external_id(get_post_model(), pk)
