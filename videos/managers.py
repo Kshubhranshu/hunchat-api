@@ -4,9 +4,7 @@ from django.db import models
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from PIL import Image
-
-from cv2 import VideoCapture
+import cv2
 
 
 class VideoManager(models.Manager):
@@ -17,22 +15,19 @@ class VideoManager(models.Manager):
     def create(self, *args, **kwargs):
         video = super(VideoManager, self).create(*args, **kwargs)
 
-        vidcap = VideoCapture(video.file.url)
+        vidcap = cv2.VideoCapture(video.file.url)
         success, frame = vidcap.read()
         if success:
-            image = Image.fromarray(frame)
-            buffer = BytesIO()
-            image.save(fp=buffer, format="jpeg")
+            success_, image = cv2.imencode(".jpeg", frame)
+            buffer = BytesIO(image)
             poster = ContentFile(buffer.getvalue())
             poster_field = video.poster
             poster_name = "poster-{}.jpeg".format(video.pk)
-            poster_field.save(poster_name, InMemoryUploadedFile(
-                poster,
-                None,
+            poster_field.save(
                 poster_name,
-                "image/jpeg",
-                poster.tell,
-                None
-            ))
+                InMemoryUploadedFile(
+                    poster, None, poster_name, "image/jpeg", poster.tell, None
+                ),
+            )
 
         return video
