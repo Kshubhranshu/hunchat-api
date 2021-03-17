@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
@@ -22,6 +23,7 @@ class PostSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
     comment_to = serializers.SerializerMethodField(read_only=True)
     comments = serializers.SerializerMethodField(read_only=True)
     comments_count = serializers.SerializerMethodField(read_only=True)
+    likes = serializers.SerializerMethodField(read_only=True)
     likes_count = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -36,6 +38,7 @@ class PostSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
             "comment_to",
             "comments",
             "comments_count",
+            "likes",
             "likes_count",
         ]
         read_only_fields = [
@@ -57,6 +60,11 @@ class PostSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
 
     def get_comments_count(self, obj):
         return obj.get_comments_count()
+
+    def get_likes(self, obj):
+        likes = obj.get_likes()
+        serializer = PostLikeShortSerializer(likes, many=True)
+        return serializer.data
 
     def get_likes_count(self, obj):
         return obj.get_likes_count()
@@ -94,12 +102,37 @@ class PostCommentSerializer(SerializerExtensionsMixin, serializers.ModelSerializ
         ]
 
 
+class PostLikeUserIdSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
+    id = HashIdField(model=get_user_model(), read_only=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = [
+            "id",
+        ]
+
+
 class PostLikeSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    post = PostSerializer()
+
     class Meta:
         model = get_post_like_model()
         fields = [
             "user",
             "post",
+        ]
+
+
+class PostLikeShortSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
+    id = HashIdField(model=get_post_like_model(), read_only=True)
+    user = PostLikeUserIdSerializer()
+
+    class Meta:
+        model = get_post_like_model()
+        fields = [
+            "id",
+            "user",
         ]
 
 
