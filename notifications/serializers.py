@@ -24,6 +24,14 @@ class PostCommentNotificationSerializer(serializers.ModelSerializer):
         fields = ["post_comment"]
 
 
+class PostLikeNotificationSerializer(serializers.ModelSerializer):
+    post_like = PostLikeSerializer()
+
+    class Meta:
+        model = get_post_like_notification_model()
+        fields = ["post_like"]
+
+
 class NotificationSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
     """
     Notification serializer with a `GenericRelatedField` mapping all possible
@@ -34,6 +42,7 @@ class NotificationSerializer(SerializerExtensionsMixin, serializers.ModelSeriali
     content_object = GenericRelatedField(
         {
             get_post_comment_notification_model(): PostCommentNotificationSerializer(),
+            get_post_like_notification_model(): PostLikeNotificationSerializer(),
         }
     )
 
