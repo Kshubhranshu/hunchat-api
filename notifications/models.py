@@ -51,7 +51,7 @@ class PostCommentNotification(models.Model):
 class PostLikeNotificationManager(models.Manager):
     def create(self, *args, **kwargs):
         post_like_notification = super(PostLikeNotificationManager, self).create(
-            *args, **kwargs
+            post_like=kwargs["post_like"]
         )
         Notification.objects.create(
             owner_id=kwargs["owner_id"],
@@ -65,4 +65,4 @@ class PostLikeNotification(models.Model):
     notification = GenericRelation("notifications.Notification")
     post_like = models.ForeignKey("posts.PostLike", on_delete=models.CASCADE)
 
-    objects = PostCommentNotificationManager()
+    objects = PostLikeNotificationManager()
