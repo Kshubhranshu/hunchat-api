@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('videos', '0002_auto_20210227_1313'),
+        ("videos", "0002_auto_20210227_1313"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='video',
-            name='poster_height',
+            model_name="video",
+            name="poster_height",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='video',
-            name='poster_width',
+            model_name="video",
+            name="poster_width",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
     ]
