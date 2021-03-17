@@ -13,7 +13,7 @@ from hunchat import permissions as hunchat_permissions
 from notifications.serializers import NotificationSerializer
 
 
-class Notifications(APIView):
+class NotificationsView(APIView):
     """
     API endpoint to list user notifications.
     """
