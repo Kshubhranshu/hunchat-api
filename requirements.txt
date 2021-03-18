@@ -24,7 +24,7 @@ python-dotenv==0.15.0
 opencv-python==4.5.1.48
 
 # Images
-Pillow==8.1.0
+Pillow==8.1.2
 
 # WSGI
 gunicorn==20.0.4
