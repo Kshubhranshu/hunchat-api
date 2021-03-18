@@ -152,12 +152,6 @@ SIMPLE_JWT = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": str(BASE_DIR / "db.sqlite3"),
-    }
-}
 
 AUTH_USER_MODEL = "authentication.User"
 
