@@ -7,7 +7,7 @@
   <h3 align="center">Hunchat API</h3>
 
   <p align="center">
-    The Hunchat social network API
+    The Hunchat social network API code repository.
     <br />
     <a href="https://github.com/hunchat/hunchat-api"><strong>Explore docs »</strong></a>
     <br />
