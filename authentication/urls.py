@@ -20,6 +20,7 @@ urlpatterns = [
         views.UserImageView.as_view(),
         name="users_detail_image",
     ),
+    path("auth/", include("rest_framework_social_oauth2.urls")),
     path(
         "auth/username_available/",
         views.UsernameAvailableView.as_view(),
