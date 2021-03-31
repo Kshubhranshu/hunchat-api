@@ -65,6 +65,9 @@ INSTALLED_APPS = [
     "rest_framework_serializer_extensions",
     "drf_yasg",
     "generic_relations",
+    "oauth2_provider",
+    "social_django",
+    "rest_framework_social_oauth2",
     "corsheaders",
     "storages",
     "django_rq",
@@ -101,6 +104,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
@@ -121,6 +126,8 @@ CORS_ORIGIN_WHITELIST = json.loads(os.environ.get("CORS_ORIGIN_WHITELIST"))
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        "rest_framework_social_oauth2.authentication.SocialAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -154,6 +161,16 @@ SIMPLE_JWT = {
 DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
 
 AUTH_USER_MODEL = "authentication.User"
+AUTHENTICATION_BACKENDS = [
+    # Apple OAuth2
+    "social_core.backends.apple.AppleIdAuth",
+
+    # django-rest-framework-social-oauth2
+    "rest_framework_social_oauth2.backends.DjangoOAuth2",
+
+    # Django
+    "django.contrib.auth.backends.ModelBackend",
+]
 
 
 # Password validation
@@ -176,6 +193,17 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+
+# Apple configurations
+# https://python-social-auth.readthedocs.io/en/latest/backends/apple.html
+
+SOCIAL_AUTH_APPLE_ID_CLIENT = os.environ.get("SOCIAL_AUTH_APPLE_ID_CLIENT")
+SOCIAL_AUTH_APPLE_ID_TEAM = os.environ.get("SOCIAL_AUTH_APPLE_ID_TEAM")
+SOCIAL_AUTH_APPLE_ID_KEY = os.environ.get("SOCIAL_AUTH_APPLE_ID_KEY")
+SOCIAL_AUTH_APPLE_ID_SECRET = os.environ.get("SOCIAL_AUTH_APPLE_ID_SECRET")
+SOCIAL_AUTH_APPLE_ID_SCOPE = ["email", "name"]
+SOCIAL_AUTH_APPLE_ID_EMAIL_AS_USERNAME = True
 
 
 # Queues
