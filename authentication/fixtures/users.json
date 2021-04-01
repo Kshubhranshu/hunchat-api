@@ -1,0 +1,20 @@
+[
+  {
+    "model": "authentication.User",
+    "pk": 1,
+    "fields": {
+      "name": "Charles Darwin",
+      "username": "charles",
+      "email": "charles@hmsbeagle.com"
+    }
+  },
+  {
+    "model": "authentication.User",
+    "pk": 2,
+    "fields": {
+      "name": "Marie Curie",
+      "username": "marie",
+      "email": "marie@u-paris.fr"
+    }
+  }
+]

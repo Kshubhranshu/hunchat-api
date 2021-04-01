@@ -1,19 +1,124 @@
 from django.test import TestCase
+from django.urls import include, path, reverse
+from django.contrib.auth.hashers import check_password
 
 from rest_framework.test import APITestCase, URLPatternsTestCase
+from rest_framework import status
+from rest_framework.exceptions import ErrorDetail, ValidationError
 
 from authentication.models import User
 
 
 class UserModelTests(TestCase):
-    # fixtures = ["users.json"]
-
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = User.objects.create(
-            name="Charles Darwin", username="charles", email="charles@hmsbeagle.com"
-        )
+    fixtures = ["users.json"]
 
     def test_is_username_taken(self):
         self.assertIs(User.is_username_taken("charles"), True)
-        self.assertIs(User.is_username_taken("marie"), False)
+        self.assertIs(User.is_username_taken("euclides"), False)
+
+    def test_is_email_taken(self):
+        self.assertIs(User.is_email_taken("marie@u-paris.fr"), True)
+        self.assertIs(User.is_email_taken("rfranklin@cam.ac.uk"), False)
+
+
+class AuthenticationViewsTests(APITestCase, URLPatternsTestCase):
+    fixtures = ["users.json"]
+    urlpatterns = [
+        path("api/", include("authentication.urls")),
+    ]
+
+    def test_create_user_list_endpoint(self):
+        url = reverse("authentication:user-list")
+        self.assertEqual(url, "/api/users/")
+
+    def test_create_user_missing_required_fields(self):
+        """
+        Ensure we cannot create a new user object with missing required fields.
+        """
+        url = reverse("authentication:user-list")
+        response = self.client.post(url, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            response.data["username"],
+            [ErrorDetail(string="This field is required.", code="required")],
+        )
+        self.assertEqual(
+            response.data["name"],
+            [ErrorDetail(string="This field is required.", code="required")],
+        )
+        self.assertEqual(
+            response.data["email"],
+            [ErrorDetail(string="This field is required.", code="required")],
+        )
+        self.assertEqual(
+            response.data["password"],
+            [ErrorDetail(string="This field is required.", code="required")],
+        )
+
+    def test_create_user_username_taken(self):
+        """
+        Ensure we cannot create a new user object with a username already taken.
+        """
+        url = reverse("authentication:user-list")
+        data = {
+            "name": "Rachel Carson",
+            "username": "marie",
+            "email": "rcarson@jhu.edu",
+            "password": "sdlk#j6920n12!",
+        }
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            response.data["username"],
+            [
+                ErrorDetail(
+                    string="A user with that username already exists.", code="unique"
+                )
+            ],
+        )
+
+    def test_create_user_email_taken(self):
+        """
+        Ensure we cannot create a new user object with an email already taken.
+        """
+        url = reverse("authentication:user-list")
+        data = {
+            "name": "Lise Meitner",
+            "username": "lise",
+            "email": "charles@hmsbeagle.com",
+            "password": "3kjf9l1adjkl",
+        }
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            response.data["email"],
+            [ErrorDetail(string="user with this email already exists.", code="unique")],
+        )
+
+    def test_create_user(self):
+        """
+        Ensure we can create a new user object.
+        """
+        url = reverse("authentication:user-list")
+        data = {
+            "name": "Sally Ride",
+            "username": "astrosally",
+            "email": "sride@nasa.gov",
+            "password": "slkaj&#azk!",
+        }
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(response.data), 7)
+        self.assertEqual(response.data["name"], data["name"])
+        self.assertEqual(response.data["username"], data["username"])
+        self.assertEqual(response.data["email"], data["email"])
+        self.assertTrue(check_password(data["password"], response.data["password"]))
+        self.assertFalse(check_password("slkd&12@", response.data["password"]))
+        self.assertFalse(response.data["are_terms_accepted"])
+        self.assertFalse(response.data["is_newsletter_subscribed"])
+        self.assertEqual(User.objects.count(), 3)
+        self.assertEqual(User.objects.get(username="astrosally").name, "Sally Ride")
