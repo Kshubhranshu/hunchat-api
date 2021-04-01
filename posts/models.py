@@ -67,6 +67,4 @@ class PostLike(models.Model):
     objects = PostLikeManager()
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=["user", "post"], name="unique_like")
-        ]
+        unique_together = ("user", "post")
