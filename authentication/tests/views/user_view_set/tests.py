@@ -1,4 +1,3 @@
-from django.test import TestCase
 from django.urls import include, path, reverse
 from django.contrib.auth.hashers import check_password
 from rest_framework.test import (
@@ -15,19 +14,7 @@ from rest_framework_serializer_extensions.utils import (
 from authentication.models import User
 
 
-class UserModelTests(TestCase):
-    fixtures = ["users.json"]
-
-    def test_is_username_taken(self):
-        self.assertIs(User.is_username_taken("charles"), True)
-        self.assertIs(User.is_username_taken("euclides"), False)
-
-    def test_is_email_taken(self):
-        self.assertIs(User.is_email_taken("marie@u-paris.fr"), True)
-        self.assertIs(User.is_email_taken("rfranklin@cam.ac.uk"), False)
-
-
-class AuthenticationViewsTests(APITestCase, URLPatternsTestCase):
+class UserViewSetTests(APITestCase, URLPatternsTestCase):
     fixtures = ["users.json"]
     urlpatterns = [
         path("api/", include("authentication.urls")),
