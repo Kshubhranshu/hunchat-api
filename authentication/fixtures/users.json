@@ -5,7 +5,8 @@
     "fields": {
       "name": "Charles Darwin",
       "username": "charles",
-      "email": "charles@hmsbeagle.com"
+      "email": "charles@hmsbeagle.com",
+      "date_joined": "2021-02-01T21:54:07.871791Z"
     }
   },
   {
@@ -14,7 +15,8 @@
     "fields": {
       "name": "Marie Curie",
       "username": "marie",
-      "email": "marie@u-paris.fr"
+      "email": "marie@u-paris.fr",
+      "date_joined": "2021-02-01T22:54:07.871791Z"
     }
   },
   {
@@ -23,7 +25,8 @@
     "fields": {
       "name": "Michael Faraday",
       "username": "faraday",
-      "email": "mfaraday@royalinsitution.uk"
+      "email": "mfaraday@royalinsitution.uk",
+      "date_joined": "2021-02-01T23:54:07.871791Z"
     }
   }
 ]
