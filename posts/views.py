@@ -25,7 +25,7 @@ from hunchat.model_loaders import get_post_like_model, get_post_model, get_video
 from posts.serializers import PostSerializer, PostThreadSerializer
 
 
-class PostsViewset(
+class PostsViewSet(
     ExternalIdViewMixin, SerializerExtensionsAPIViewMixin, viewsets.ReadOnlyModelViewSet
 ):
     """
