@@ -6,7 +6,7 @@ from posts import views
 app_name = "posts"
 
 router = routers.DefaultRouter()
-router.register(r"posts", views.PostsViewSet)
+router.register(r"posts", views.PostViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
