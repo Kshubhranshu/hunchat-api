@@ -16,5 +16,14 @@
       "username": "marie",
       "email": "marie@u-paris.fr"
     }
+  },
+  {
+    "model": "authentication.User",
+    "pk": 3,
+    "fields": {
+      "name": "Michael Faraday",
+      "username": "faraday",
+      "email": "mfaraday@royalinsitution.uk"
+    }
   }
 ]
