@@ -113,7 +113,7 @@ class UserViewSetTests(APITestCase, URLPatternsTestCase):
         self.assertFalse(check_password("slkd&12@", response.data["password"]))
         self.assertFalse(response.data["are_terms_accepted"])
         self.assertFalse(response.data["is_newsletter_subscribed"])
-        self.assertEqual(User.objects.count(), 3)
+        self.assertEqual(User.objects.count(), 4)
         self.assertEqual(User.objects.get(username="astrosally").name, "Sally Ride")
 
     def test_partial_update_user_name(self):
