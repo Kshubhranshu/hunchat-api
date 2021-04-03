@@ -3,7 +3,7 @@ from django.test import TestCase
 from authentication.models import User
 
 
-class UserModelTests(TestCase):
+class UserTests(TestCase):
     fixtures = ["users.json"]
 
     def test_is_username_taken(self):
