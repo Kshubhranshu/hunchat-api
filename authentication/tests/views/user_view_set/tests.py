@@ -20,7 +20,7 @@ class UserViewSetTests(APITestCase, URLPatternsTestCase):
         path("api/", include("authentication.urls")),
     ]
 
-    def test_create_user_list_endpoint(self):
+    def test_user_list_endpoint(self):
         url = reverse("authentication:user-list")
         self.assertEqual(url, "/api/users/")
 
