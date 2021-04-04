@@ -1,20 +1,18 @@
-.. Hunchat API documentation master file, created by
-   sphinx-quickstart on Wed Jan 27 22:50:17 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to Hunchat API's documentation!
+Hunchat
 =======================================
 
+*The Hunchat social media open source API*
+
+Hunchat is a social media platform focused on the exchange of ideas and meaningful conversations. This is the official documentation for the Hunchat API.
+
+Contents
+--------
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 3
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   getting_started
+   installation
+   user_guide/index
+   api_reference/index
+   developer_guide/index
