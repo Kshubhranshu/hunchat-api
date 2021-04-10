@@ -1,9 +1,13 @@
 from rest_framework import serializers
 
+from rest_framework_serializer_extensions.fields import HashIdField
+from rest_framework_serializer_extensions.serializers import SerializerExtensionsMixin
+
 from hunchat.model_loaders import get_video_model
 
 
-class VideoSerializer(serializers.ModelSerializer):
+class VideoSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
+    id = HashIdField(model=get_video_model(), read_only=True)
     file_url = serializers.SerializerMethodField()
     poster_url = serializers.SerializerMethodField()
 
