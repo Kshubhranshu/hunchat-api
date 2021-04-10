@@ -1,0 +1,132 @@
+[
+  {
+    "model": "videos.video",
+    "pk": 1,
+    "fields": {
+      "file": "videos/XXXX.MOV",
+      "duration": "32.3650000000",
+      "height": 1920,
+      "width": 1080,
+      "poster": "images/XXXX.jpeg",
+      "poster_height": 1920,
+      "poster_width": 1080
+    }
+  },
+  {
+    "model": "videos.video",
+    "pk": 2,
+    "fields": {
+      "file": "videos/XXXX.MOV",
+      "duration": "8.4616235667",
+      "height": 1920,
+      "width": 1080,
+      "poster": "images/XXXX.jpeg",
+      "poster_height": 1920,
+      "poster_width": 1080
+    }
+  },
+  {
+    "model": "videos.video",
+    "pk": 3,
+    "fields": {
+      "file": "videos/XXXX.MOV",
+      "duration": "89.4616626647",
+      "height": 1920,
+      "width": 1080,
+      "poster": "images/XXXX.jpeg",
+      "poster_height": 1920,
+      "poster_width": 1080
+    }
+  },
+  {
+    "model": "videos.video",
+    "pk": 4,
+    "fields": {
+      "file": "videos/XXXX.MOV",
+      "duration": "21.4616666667",
+      "height": 1920,
+      "width": 1080,
+      "poster": "images/XXXX.jpeg",
+      "poster_height": 1920,
+      "poster_width": 1080
+    }
+  },
+  {
+    "model": "videos.video",
+    "pk": 5,
+    "fields": {
+      "file": "videos/XXXX.MOV",
+      "duration": "29.4616666667",
+      "height": 1920,
+      "width": 1080,
+      "poster": "images/XXXX.jpeg",
+      "poster_height": 1920,
+      "poster_width": 1080
+    }
+  },
+  {
+    "model": "videos.video",
+    "pk": 6,
+    "fields": {
+      "file": "videos/XXXX.MOV",
+      "duration": "15.9601654667",
+      "height": 1920,
+      "width": 1080,
+      "poster": "images/XXXX.jpeg",
+      "poster_height": 1920,
+      "poster_width": 1080
+    }
+  },
+  {
+    "model": "videos.video",
+    "pk": 7,
+    "fields": {
+      "file": "videos/XXXX.MOV",
+      "duration": "83.8615626336",
+      "height": 1920,
+      "width": 1080,
+      "poster": "images/XXXX.jpeg",
+      "poster_height": 1920,
+      "poster_width": 1080
+    }
+  },
+  {
+    "model": "videos.video",
+    "pk": 8,
+    "fields": {
+      "file": "videos/XXXX.MOV",
+      "duration": "30.4616666667",
+      "height": 1920,
+      "width": 1080,
+      "poster": "images/XXXX.jpeg",
+      "poster_height": 1920,
+      "poster_width": 1080
+    }
+  },
+  {
+    "model": "videos.video",
+    "pk": 9,
+    "fields": {
+      "file": "videos/XXXX.MOV",
+      "duration": "29.4616666667",
+      "height": 1920,
+      "width": 1080,
+      "poster": "images/XXXX.jpeg",
+      "poster_height": 1920,
+      "poster_width": 1080
+    }
+  },
+  {
+    "model": "videos.video",
+    "pk": 10,
+    "fields": {
+      "file": "videos/XXXX.MOV",
+      "duration": "102.3819492910",
+      "height": 1920,
+      "width": 1080,
+      "poster": "images/XXXX.jpeg",
+      "poster_height": 1920,
+      "poster_width": 1080
+    }
+  }
+]
