@@ -36,6 +36,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path(r"^auth/", include("rest_framework_social_oauth2.urls")),
     path("api/", include("authentication.urls")),
     path("api/invitations/", include("invitations.urls")),
     path("api/", include("notifications.urls")),
