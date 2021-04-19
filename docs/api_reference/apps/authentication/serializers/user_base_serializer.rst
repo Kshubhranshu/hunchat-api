@@ -1,5 +1,5 @@
-.. _user:
+.. _user_base_serializer:
 
 *************************
-``User``
+``UserBaseSerializer``
 *************************

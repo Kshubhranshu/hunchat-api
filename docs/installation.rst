@@ -15,6 +15,13 @@ Installation
 Using ``git``
 =============
 
-At the moment ```hunchat`` is not available as a ``pip`` package. So the only way to install it it by cloning the code repository::
+At the moment ```hunchat`` is not available as a ``pip`` package. So the only way to install it is by cloning the code repository::
 
   git clone https://github.com/hunchat/hunchat-api.git
+
+Dependencies
+============
+
+To install the dependencies, we recommend that you create a virtual environment and proceed to install the requirements from the ``requirements.txt`` file with ``pip``::
+
+  pip install -r requirements.txt

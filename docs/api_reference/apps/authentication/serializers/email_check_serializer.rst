@@ -1,5 +1,5 @@
-.. _user:
+.. _email_check_serializer:
 
 *************************
-``User``
+``EmailCheckSerializer``
 *************************

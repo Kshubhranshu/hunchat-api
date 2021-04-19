@@ -1,5 +1,5 @@
-.. _user:
+.. _token_pair_serializer:
 
 *************************
-``User``
+``tokenPairSerializer``
 *************************
