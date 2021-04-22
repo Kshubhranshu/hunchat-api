@@ -1,5 +1,7 @@
 from django.db import models
 
+from hunchat.storage import get_video_file_path, get_image_file_path
+
 from videos.managers import VideoManager
 
 
@@ -9,7 +11,7 @@ class Video(models.Model):
     """
 
     file = models.FileField(
-        upload_to="videos",
+        upload_to=get_video_file_path,
         blank=False,
         null=False,
     )
@@ -20,7 +22,7 @@ class Video(models.Model):
     width = models.PositiveIntegerField()  # width in pixels
 
     poster = models.ImageField(
-        upload_to="images",
+        upload_to=get_image_file_path,
         height_field="poster_height",
         width_field="poster_width",
         blank=True,
