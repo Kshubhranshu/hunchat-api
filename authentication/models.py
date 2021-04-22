@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from hunchat.storage import get_image_file_path
+
 
 class User(AbstractUser):
     """
@@ -15,7 +17,7 @@ class User(AbstractUser):
     is_email_verified = models.BooleanField(default=False)
 
     # profile image
-    image = models.ImageField(upload_to="images", null=True, blank=True)
+    image = models.ImageField(upload_to=get_image_file_path, null=True, blank=True)
 
     bio = models.CharField(null=True, blank=True, max_length=160)
     bio_video = models.ForeignKey(
