@@ -8,6 +8,9 @@ from hunchat.model_loaders import get_video_model
 
 class VideoSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
     id = HashIdField(model=get_video_model(), read_only=True)
+    duration = serializers.DecimalField(
+        max_digits=None, decimal_places=3, coerce_to_string=False
+    )
     file_url = serializers.SerializerMethodField()
     poster_url = serializers.SerializerMethodField()
 
