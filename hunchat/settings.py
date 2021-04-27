@@ -164,10 +164,8 @@ AUTH_USER_MODEL = "authentication.User"
 AUTHENTICATION_BACKENDS = [
     # Apple OAuth2
     "social_core.backends.apple.AppleIdAuth",
-
     # django-rest-framework-social-oauth2
     "rest_framework_social_oauth2.backends.DjangoOAuth2",
-
     # Django
     "django.contrib.auth.backends.ModelBackend",
 ]
@@ -306,4 +304,5 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
 # Hunchat config
 
+USER_USERNAME_MAX_LENGTH = int(os.environ.get("USER_USERNAME_MAX_LENGTH", "15"))
 POST_DESCRIPTION_MAX_LENGTH = int(os.environ.get("POST_DESCRIPTION_MAX_LENGTH", "200"))
