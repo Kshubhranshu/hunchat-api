@@ -1,13 +1,28 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from hunchat.storage import get_image_file_path
 
 
+class UserUsernameField(models.CharField):
+    """
+    Custom username field always lowercase.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(UserUsernameField, self).__init__(*args, **kwargs)
+
+    def get_prep_value(self, value):
+        return str(value).lower()
+
+
 class User(AbstractUser):
     """
     Custom User model.
     """
+
+    username = UserUsernameField(max_length=settings.USER_USERNAME_MAX_LENGTH)
 
     first_name = None
     last_name = None
