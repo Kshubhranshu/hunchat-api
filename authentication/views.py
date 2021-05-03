@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_serializer_extensions.utils import (
     internal_id_from_model_and_external_id,
+    external_id_from_model_and_internal_id,
 )
 from rest_framework_serializer_extensions.views import (
     ExternalIdViewMixin,
@@ -74,6 +75,10 @@ class UserViewSet(
             user = serializer.save()
             if user:
                 refresh_token = RefreshToken.for_user(user)
+                hashid = external_id_from_model_and_internal_id(
+                    get_user_model(), user.id
+                )
+                refresh_token["user_hashid"] = hashid
                 return Response(
                     {
                         "refresh": str(refresh_token),
