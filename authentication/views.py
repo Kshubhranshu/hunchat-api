@@ -73,7 +73,14 @@ class UserViewSet(
         if serializer.is_valid():
             user = serializer.save()
             if user:
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                refresh_token = RefreshToken.for_user(user)
+                return Response(
+                    {
+                        "refresh": str(refresh_token),
+                        "access": str(refresh_token.access_token),
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
