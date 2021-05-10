@@ -141,10 +141,10 @@ REST_FRAMEWORK = {
 HASHID_SALT = os.environ.get("HASHID_SALT")
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=86400), # 60 days (change to 5 minutes)
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": True,
+    "BLACKLIST_AFTER_ROTATION": False,
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
     "VERIFYING_KEY": None,
@@ -164,8 +164,10 @@ AUTH_USER_MODEL = "authentication.User"
 AUTHENTICATION_BACKENDS = [
     # Apple OAuth2
     "social_core.backends.apple.AppleIdAuth",
+
     # django-rest-framework-social-oauth2
     "rest_framework_social_oauth2.backends.DjangoOAuth2",
+
     # Django
     "django.contrib.auth.backends.ModelBackend",
 ]
