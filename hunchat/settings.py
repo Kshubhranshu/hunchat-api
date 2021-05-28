@@ -164,10 +164,8 @@ AUTH_USER_MODEL = "authentication.User"
 AUTHENTICATION_BACKENDS = [
     # Apple OAuth2
     "social_core.backends.apple.AppleIdAuth",
-
     # django-rest-framework-social-oauth2
     "rest_framework_social_oauth2.backends.DjangoOAuth2",
-
     # Django
     "django.contrib.auth.backends.ModelBackend",
 ]
@@ -258,13 +256,32 @@ USE_TZ = True
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
-AWS_S3_HOST = os.environ.get("AWS_S3_HOST", "s3.amazonaws.com")
-AWS_S3_CUSTOM_DOMAIN = "%s.%s" % (AWS_STORAGE_BUCKET_NAME, AWS_S3_HOST)
-AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "max-age=86400",
-}
+AWS_STORAGE_STATIC_BUCKET_NAME = os.environ.get("AWS_STORAGE_STATIC_BUCKET_NAME")
+AWS_STORAGE_MEDIA_INPUT_BUCKET_NAME = os.environ.get(
+    "AWS_STORAGE_MEDIA_INPUT_BUCKET_NAME"
+)
+AWS_STORAGE_MEDIA_OUTPUT_BUCKET_NAME = os.environ.get(
+    "AWS_STORAGE_MEDIA_OUTPUT_BUCKET_NAME"
+)
+AWS_STORAGE_STATIC_HOST = os.environ.get("AWS_STORAGE_STATIC_HOST", "s3.amazonaws.com")
+AWS_STORAGE_MEDIA_INPUT_HOST = os.environ.get(
+    "AWS_STORAGE_MEDIA_INPUT_HOST", "s3.amazonaws.com"
+)
+AWS_STORAGE_MEDIA_OUTPUT_HOST = os.environ.get(
+    "AWS_STORAGE_MEDIA_OUTPUT_HOST", "s3.amazonaws.com"
+)
+AWS_STORAGE_STATIC_DOMAIN = "%s.%s" % (
+    AWS_STORAGE_STATIC_BUCKET_NAME,
+    AWS_STORAGE_STATIC_HOST,
+)
+AWS_STORAGE_MEDIA_INPUT_DOMAIN = "%s.%s" % (
+    AWS_STORAGE_MEDIA_INPUT_BUCKET_NAME,
+    AWS_STORAGE_MEDIA_INPUT_HOST,
+)
+AWS_STORAGE_MEDIA_OUTPUT_DOMAIN = "%s.%s" % (
+    AWS_STORAGE_MEDIA_OUTPUT_BUCKET_NAME,
+    AWS_STORAGE_MEDIA_OUTPUT_HOST,
+)
 
 
 # Static files (CSS, JavaScript, Images)
@@ -276,16 +293,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
-AWS_STATIC_LOCATION = "static"
-STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+STATIC_URL = "https://%s/" % (AWS_STORAGE_STATIC_DOMAIN)
 
 
 # Media files (Images, Videos)
 # https://docs.djangoproject.com/en/3.1/topics/files/
 
-AWS_MEDIA_LOCATION = os.environ.get("AWS_MEDIA_LOCATION")
-DEFAULT_FILE_STORAGE = "hunchat.storage.S3MediaStorage"
-MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_MEDIA_LOCATION)
+INPUT_FILE_STORAGE = "hunchat.storage.S3InputMediaStorage"
+OUTPUT_FILE_STORAGE = "hunchat.storage.S3OutputMediaStorage"
+MEDIA_INPUT_URL = "https://%s/" % (AWS_STORAGE_MEDIA_INPUT_DOMAIN)
+MEDIA_OUTPUT_URL = "https://%s/" % (AWS_STORAGE_MEDIA_OUTPUT_DOMAIN)
 
 
 # Email configurations
