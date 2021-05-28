@@ -10,12 +10,12 @@ class S3StaticStorage(S3Boto3Storage):
     bucket_name = settings.AWS_STORAGE_STATIC_BUCKET_NAME
 
 
-class S3MediaStorage(S3Boto3Storage):
+class S3InputMediaStorage(S3Boto3Storage):
     """
-    Storage class for media files.
+    Storage class for uploading media files.
     """
 
-    location = settings.AWS_MEDIA_LOCATION
+    bucket_name = settings.AWS_STORAGE_MEDIA_INPUT_BUCKET_NAME
 
 
 
