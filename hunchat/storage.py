@@ -18,4 +18,9 @@ class S3InputMediaStorage(S3Boto3Storage):
     bucket_name = settings.AWS_STORAGE_MEDIA_INPUT_BUCKET_NAME
 
 
+class S3OutputMediaStorage(S3Boto3Storage):
+    """
+    Storage class for output media files.
+    """
 
+    bucket_name = settings.AWS_STORAGE_MEDIA_OUTPUT_BUCKET_NAME
