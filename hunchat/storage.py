@@ -7,7 +7,7 @@ class S3StaticStorage(S3Boto3Storage):
     Storage class for static files.
     """
 
-    location = settings.AWS_STATIC_LOCATION
+    bucket_name = settings.AWS_STORAGE_STATIC_BUCKET_NAME
 
 
 class S3MediaStorage(S3Boto3Storage):
